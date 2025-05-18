@@ -39,8 +39,8 @@ export const CardPresentation = ({
     const width = rect.width;
     const height = rect.height;
 
-    const rotateY = (x / width - 0.5) * 10; // Ángulo de rotación en Y
-    const rotateX = (y / height - 0.5) * -10; // Ángulo de rotación en X
+    const rotateY = (x / width - 0.5) * 10;
+    const rotateX = (y / height - 0.5) * -10;
 
     setTransform({
       rotateX,
@@ -50,6 +50,26 @@ export const CardPresentation = ({
   const handleMouseLeave = () => {
     setTransform({ rotateX: 0, rotateY: 0 });
     setShowLight(false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    setCursorPosition({ x, y });
+    const width = rect.width;
+    const height = rect.height;
+    const rotateY = (x / width - 0.5) * 10;
+    const rotateX = (y / height - 0.5) * -10;
+
+    setTransform({
+      rotateX,
+      rotateY,
+    });
+  };
+  const handleTouchEnd = () => {
+    setTransform({ rotateX: 0, rotateY: 0 });
   };
   useEffect(() => {
     const img = new Image();
@@ -85,6 +105,8 @@ export const CardPresentation = ({
           className='relative w-full h-[420px] lg:w-[600px] lg:h-[400px] border-2 py-4 lg:py-0 border-gray-100/10 overflow-hidden bg-white/10 rounded-2xl shadow-2xl shadow-black/20'
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           style={{
             transform: `perspective(600px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`,
             transition: 'transform 0.1s ease-out',
@@ -100,7 +122,9 @@ export const CardPresentation = ({
             >
               <span
                 className={`whitespace-nowrap transition-all duration-200 pb-1 ${
-                  isIconHovered ? 'opacity-100 ml-2' : 'opacity-0 ml-[-139px]'
+                  isIconHovered && window.innerWidth > 768
+                    ? 'opacity-100 ml-2'
+                    : 'opacity-0 ml-[-139px]'
                 }`}
               >
                 Compartir tarjeta
@@ -167,7 +191,7 @@ export const CardPresentation = ({
               )}
             </div>
           </div>
-          {showLight && (
+          {showLight && window.innerWidth > 768 && (
             <div
               className='absolute pointer-events-none z-50 blur-2xl bg-radial from-gray-200 to-gray-100 opacity-40  mix-blend-lighten rounded-full'
               style={{

@@ -26,7 +26,7 @@ export default function LoginPage() {
       {loading ? (
         <span className='loader'></span>
       ) : (
-        <>
+        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center'>
           <div className='text-center lg:text-left items-center lg:items-start flex flex-col gap-2 '>
             <div className='leading-2'>
               <h2 className='text-3xl lg:text-4xl text-white/80 font-bold'>
@@ -58,7 +58,7 @@ export default function LoginPage() {
             ]}
             skills={['HTML', 'CSS', 'TypeScript', 'React', 'Astro']}
           />
-        </>
+        </div>
       )}
     </div>
   );
