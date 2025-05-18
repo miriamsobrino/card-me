@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { iconsMap } from './IconsMap';
 import { getDomain } from '../helpers/getDomain';
-import { FiArrowUpRight } from 'react-icons/fi';
 import { RiLink } from 'react-icons/ri';
 import { useAuth } from '../context/AuthContext';
 interface Props {

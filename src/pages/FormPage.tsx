@@ -21,7 +21,6 @@ export default function FormPage() {
   const [skills, setSkills] = useState<string[]>(['']);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageURL, setImageURL] = useState<string | null>(null);
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   useEffect(() => {
@@ -98,7 +97,6 @@ export default function FormPage() {
         );
         await uploadBytes(storageRef, imageFile);
         publicImageUrl = await getDownloadURL(storageRef);
-        setImageURL(publicImageUrl);
       } catch (e) {}
     }
     if (name && profession && description && links && skills) {
