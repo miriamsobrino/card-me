@@ -13,7 +13,7 @@ import { FaCirclePlus, FaCircleMinus } from 'react-icons/fa6';
 import { HexColorPicker } from 'react-colorful';
 
 export default function FormPage() {
-  const { cardData, createCard, color, setColor } = useCardContext();
+  const { cardData, createCard } = useCardContext();
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('');
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
@@ -21,8 +21,10 @@ export default function FormPage() {
   const [skills, setSkills] = useState<string[]>(['']);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const navigate = useNavigate();
+  const [color, setColor] = useState('#1e2939');
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (cardData) {
       setName(cardData.name);
@@ -31,8 +33,10 @@ export default function FormPage() {
       setDescription(cardData.description);
       setSkills(cardData.skills ? cardData.skills : ['']);
       setImagePreview(cardData.image || null);
+      setColor(cardData.color);
     }
   }, [cardData]);
+
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -108,6 +112,7 @@ export default function FormPage() {
         description,
         links: validLinks,
         skills: completedSkills,
+        color,
       };
       if (user) {
         await createCard(user.uid, cardData);

@@ -6,4 +6,5 @@ export interface Card {
   description: string;
   links: { platform: string; url: string }[];
   skills: string[];
+  color: string;
 }

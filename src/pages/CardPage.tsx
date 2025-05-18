@@ -1,11 +1,26 @@
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CardPresentation } from '../components/CardPresentation';
 import { useCardContext } from '../context/CardContext';
 
 export default function CardPage() {
-  const { cardData, color, loading } = useCardContext();
+  const { cardData, loading } = useCardContext();
   if (!cardData) return loading;
 
-  const { name, image, profession, description, links, skills } = cardData;
+  const { name, image, profession, description, links, skills, color } =
+    cardData;
+
+  useEffect(() => {
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('pageshow', () => {});
+    };
+  }, []);
 
   return (
     <div
@@ -27,9 +42,12 @@ export default function CardPage() {
           />
           <p>
             Hecho en{' '}
-            <span className='hover:underline font-bold text-white/80 transition-all duration-200 cursor-pointer font-caveat text-xl'>
+            <Link
+              to='/'
+              className='hover:underline font-bold text-white/80 transition-all duration-200 cursor-pointer font-caveat text-xl'
+            >
               Card.me
-            </span>
+            </Link>
           </p>
         </div>
       )}

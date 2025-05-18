@@ -26,8 +26,8 @@ export const CardPresentation = ({
   const [showLight, setShowLight] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [isIconHovered, setIsIconHovered] = useState(false);
-  const { user } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {

@@ -8,8 +8,6 @@ interface CardContextType {
   cardData: Card | null;
   loading: boolean;
   createCard: (userId: string, card: Card) => Promise<void>;
-  color: string;
-  setColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CardContext = createContext<CardContextType | undefined>(undefined);
@@ -28,7 +26,7 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
   const [cardData, setCardData] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
-  const [color, setColor] = useState('#1e2939');
+
   useEffect(() => {
     const cardRef = ref(db, `cards/${user?.uid}`);
 
@@ -55,9 +53,7 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   return (
-    <CardContext.Provider
-      value={{ cardData, color, loading, createCard, setColor }}
-    >
+    <CardContext.Provider value={{ cardData, loading, createCard }}>
       {children}
     </CardContext.Provider>
   );
