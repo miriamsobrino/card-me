@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { CardPresentation } from '../components/CardPresentation';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 import { useEffect } from 'react';
 
 export default function LoginPage() {
-  const { user, loading, signInWithGoogle } = useAuth();
+  const { user, loading, signInWithGoogle } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {

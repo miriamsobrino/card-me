@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { useAuthContext } from './context/AuthContext';
 interface Props {
   children: React.ReactNode;
 }
 export default function Layout({ children }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logOut } = useAuth();
+  const { logOut } = useAuthContext();
   const signOut = () => {
     logOut();
     navigate('/login');

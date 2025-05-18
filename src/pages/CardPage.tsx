@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CardPresentation } from '../components/CardPresentation';
 import { useCardContext } from '../context/CardContext';
@@ -9,18 +8,6 @@ export default function CardPage() {
 
   const { name, image, profession, description, links, skills, color } =
     cardData;
-
-  useEffect(() => {
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) {
-        window.location.reload();
-      }
-    });
-
-    return () => {
-      window.removeEventListener('pageshow', () => {});
-    };
-  }, []);
 
   return (
     <div

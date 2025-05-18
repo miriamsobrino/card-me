@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PLATFORMS } from '../constants/constants';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 import { useCardContext } from '../context/CardContext';
 import { v4 as uuidv4 } from 'uuid';
 import { MdEdit } from 'react-icons/md';
@@ -22,7 +22,7 @@ export default function FormPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [color, setColor] = useState('#1e2939');
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { iconsMap } from './IconsMap';
 import { getDomain } from '../helpers/getDomain';
 import { RiLink } from 'react-icons/ri';
-import { useAuth } from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 interface Props {
   name: string;
   image: string;
@@ -27,7 +27,15 @@ export const CardPresentation = ({
   const [imageLoading, setImageLoading] = useState(true);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { user } = useAuth();
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const button = document.getElementById('share-button');
+
+    if (button && !button.onclick) {
+      button.onclick = copyToClipBoard;
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -108,6 +116,7 @@ export const CardPresentation = ({
         >
           {withIcon && (
             <button
+              id='share-button'
               onClick={copyToClipBoard}
               className='group flex gap-2  text-white/80  justify-center items-center h-8 absolute right-4 top-2 border-2 hover:bg-white/20 border-gray-200/20 rounded-full p-2 transition-all duration-200 cursor-pointer '
               onMouseEnter={() => setIsIconHovered(true)}

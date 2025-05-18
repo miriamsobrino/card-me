@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { Card } from '../types/types';
 import { db } from '../config/firebase-config';
 import { onValue, ref, set } from 'firebase/database';
-import { useAuth } from './AuthContext';
+import { useAuthContext } from './AuthContext';
 
 interface CardContextType {
   cardData: Card | null;
@@ -23,7 +23,7 @@ export const useCardContext = () => {
 };
 
 export const CardProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const [cardData, setCardData] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
 
