@@ -127,7 +127,7 @@ export default function FormPage() {
         <span className='loader'></span>
       ) : (
         <>
-          <div className='lg:flex flex-col lg:flex-row items-center h-full  justify-between mt-24  lg:mt-40  w-full lg:px-70 '>
+          <div className='lg:flex flex-col lg:flex-row items-center h-full  justify-between mt-24 lg:mb-10   lg:mt-40  w-full lg:px-70 '>
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
               <div className='lg:w-36 lg:h-36 w-28 h-28 rounded-full overflow-hidden relative cursor-pointer group'>
                 <img
@@ -255,6 +255,15 @@ export default function FormPage() {
                 >
                   Añadir <FaCirclePlus size={18} />
                 </button>
+                <span>Color</span>
+                <div className='w-full flex items-center justify-center mt-2 lg:mt-0'>
+                  <HexColorPicker
+                    style={{ width: '100%', height: 150 }}
+                    color={color}
+                    onChange={setColor}
+                    className='hidden lg:flex'
+                  />
+                </div>
                 <button
                   type='submit'
                   onClick={handleSubmit}
@@ -262,13 +271,6 @@ export default function FormPage() {
                 >
                   Crear tarjeta
                 </button>
-                {/*  <button
-                  type='submit'
-                  onClick={handleSubmit}
-                  className='p-2 pb-3 text-center cursor-pointer hover:bg-blue-400 text-white bg-blue-500 w-full rounded-md disabled:opacity-30 mt-4 transition-all duration-200'
-                >
-                  Crear tarjeta
-                </button>*/}
               </form>
             </div>
             <div className='  gap-4 items-center justify-center flex-1 mt-20 hidden lg:flex lg:flex-col'>
@@ -281,11 +283,11 @@ export default function FormPage() {
                   description={description}
                   image={imagePreview!!}
                 />
-                <HexColorPicker
-                  style={{ width: 120, height: 120 }}
+                {/*<HexColorPicker
+                  style={{ width: '100%', height: 150 }}
                   color={color}
                   onChange={setColor}
-                />
+                />*/}
                 <button
                   type='submit'
                   onClick={handleSubmit}

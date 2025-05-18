@@ -27,7 +27,19 @@ export const CardPresentation = ({
   const [imageLoading, setImageLoading] = useState(true);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const { user } = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect(); // Obtenemos las coordenadas de la tarjeta
     const x = e.clientX - rect.left; // Calculamos la posición X relativa a la tarjeta
@@ -52,25 +64,6 @@ export const CardPresentation = ({
     setShowLight(false);
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    setCursorPosition({ x, y });
-    const width = rect.width;
-    const height = rect.height;
-    const rotateY = (x / width - 0.5) * 10;
-    const rotateX = (y / height - 0.5) * -10;
-
-    setTransform({
-      rotateX,
-      rotateY,
-    });
-  };
-  const handleTouchEnd = () => {
-    setTransform({ rotateX: 0, rotateY: 0 });
-  };
   useEffect(() => {
     const img = new Image();
     img.src = image;
@@ -105,10 +98,10 @@ export const CardPresentation = ({
           className='relative w-full h-[420px] lg:w-[600px] lg:h-[400px] border-2 py-4 lg:py-0 border-gray-100/10 overflow-hidden bg-white/10 rounded-2xl shadow-2xl shadow-black/20'
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
           style={{
-            transform: `perspective(600px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`,
+            transform: !isMobile
+              ? `perspective(600px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`
+              : 'none',
             transition: 'transform 0.1s ease-out',
             transformStyle: 'preserve-3d',
           }}
