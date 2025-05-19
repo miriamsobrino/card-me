@@ -17,7 +17,6 @@ import { ThemedInput } from '../components/ThemedInput';
 
 export default function FormPage() {
   const { cardData, createCard } = useCardContext();
-  const [image, setImage] = useState('');
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('');
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
@@ -32,7 +31,6 @@ export default function FormPage() {
 
   useEffect(() => {
     if (cardData) {
-      setImage(cardData.image);
       setName(cardData.name);
       setProfession(cardData.profession);
       setPortfolio(cardData.portfolio);
@@ -142,7 +140,7 @@ export default function FormPage() {
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
               <div className='lg:w-36 lg:h-36 w-28 h-28 rounded-full overflow-hidden relative cursor-pointer group'>
                 <img
-                  src={image ? image : imagePreview || '/user.png'}
+                  src={imagePreview || '/user.png'}
                   className='w-full h-full aspect-square rounded-full opacity-90 object-cover'
                 />
                 <div className='w-full h-full bg-transparent group-hover:bg-black/40 absolute inset-0 transition-all duration-200 flex items-center justify-center'>
