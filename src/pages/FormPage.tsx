@@ -88,11 +88,14 @@ export default function FormPage() {
     const slug =
       name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
     const completedSkills = skills!!.filter((skill) => skill.trim() !== '');
-    const validLinks = links.map((link) => ({
-      ...link,
-      url: normalizeUrl(link.url),
-    }));
-    const portfolioLink = normalizeUrl(portfolio);
+    const validLinks =
+      links &&
+      links.map((link) => ({
+        ...link,
+        url: normalizeUrl(link.url),
+      }));
+    const portfolioLink =
+      portfolio.trim() !== '' ? normalizeUrl(portfolio) : '';
     let publicImageUrl = '/user.png';
     if (imageFile) {
       try {
@@ -106,7 +109,7 @@ export default function FormPage() {
         console.error('No se puede descargar la imagen');
       }
     }
-    if (name && profession && description && links && skills) {
+    if (name && profession && description) {
       const cardData = {
         id: uuidv4(),
         image: publicImageUrl,
@@ -194,32 +197,36 @@ export default function FormPage() {
                       key={platform}
                       value={platform}
                       className='bg-gray-800'
-                      disabled={links.some(
-                        (link) => link.platform === platform
-                      )}
+                      disabled={
+                        links &&
+                        links.some((link) => link.platform === platform)
+                      }
                     >
                       {platform}
                     </option>
                   ))}
                 </select>
 
-                {links.map((link, index) => (
-                  <div
-                    key={index}
-                    className='flex w-full justify-between group relative'
-                  >
-                    <ThemedInput
-                      placeholder={`Enlace de ${link.platform}`}
-                      value={link.url}
-                      onChange={(e) => handleLinkChange(index, e.target.value)}
-                    />
+                {links &&
+                  links.map((link, index) => (
+                    <div
+                      key={index}
+                      className='flex w-full justify-between group relative'
+                    >
+                      <ThemedInput
+                        placeholder={`Enlace de ${link.platform}`}
+                        value={link.url}
+                        onChange={(e) =>
+                          handleLinkChange(index, e.target.value)
+                        }
+                      />
 
-                    <FaCircleMinus
-                      className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
-                      onClick={() => deleteLink(index)}
-                    />
-                  </div>
-                ))}
+                      <FaCircleMinus
+                        className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
+                        onClick={() => deleteLink(index)}
+                      />
+                    </div>
+                  ))}
                 <label htmlFor='portfolio' className='text-start'>
                   Portfolio
                 </label>

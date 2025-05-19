@@ -1,5 +1,8 @@
 export const normalizeUrl = (url: string) => {
-  if (url.startsWith('http') || url.startsWith('https')) {
+  if (
+    url.trim() !== '' &&
+    (url.startsWith('http') || url.startsWith('https'))
+  ) {
     return url;
   }
 
