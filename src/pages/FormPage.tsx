@@ -83,15 +83,15 @@ export default function FormPage() {
     setImageFile(file);
   };
 
-  const validLinks = links.map((link) => ({
-    ...link,
-    url: normalizeUrl(link.url),
-  }));
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const slug =
       name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
     const completedSkills = skills!!.filter((skill) => skill.trim() !== '');
+    const validLinks = links.map((link) => ({
+      ...link,
+      url: normalizeUrl(link.url),
+    }));
     const portfolioLink = normalizeUrl(portfolio);
     let publicImageUrl = '/user.png';
     if (imageFile) {
@@ -302,7 +302,7 @@ export default function FormPage() {
               <CardPresentation
                 name={name}
                 profession={profession}
-                links={validLinks}
+                links={links}
                 portfolio={portfolio}
                 skills={skills}
                 description={description}
