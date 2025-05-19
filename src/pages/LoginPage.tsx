@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { CardPresentation } from '../components/CardPresentation';
 import { useAuthContext } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function LoginPage() {
   const { user, loading, signInWithGoogle } = useAuthContext();
+  const [isMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +29,12 @@ export default function LoginPage() {
         <span className='loader'></span>
       ) : (
         <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center'>
-          <div className='text-center lg:text-left items-center lg:items-start flex flex-col gap-2 '>
+          <motion.div
+            initial={isMobile ? { opacity: 0, y: -50 } : { opacity: 0, x: -50 }}
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
+            transition={{ duration: 1.5, ease: [0, 0.55, 0.45, 1] }}
+            className='text-center lg:text-left items-center lg:items-start flex flex-col gap-2 '
+          >
             <div className='leading-2'>
               <h2 className='text-3xl lg:text-4xl text-white/80 font-bold'>
                 Comparte quién eres.
@@ -45,19 +52,28 @@ export default function LoginPage() {
             >
               Empezar ahora
             </button>
-          </div>
-          <CardPresentation
-            name='Miriam Sobrino'
-            image='/default.jpg'
-            profession='Frontend Developer'
-            description='Desarrollo interfaces web intuitivas y visualmente atractivas, optimizadas para una experiencia de usuario fluida. Mi pasión es combinar diseño y tecnología para construir productos digitales accesibles e innovadores.'
-            links={[
-              { platform: 'github', url: 'https://github.com/miriamsobrino' },
-              { platform: 'linkedin', url: 'https://linkedin.com/' },
-              { platform: 'instagram', url: 'https://instagram.com/miri.code' },
-            ]}
-            skills={['HTML', 'CSS', 'TypeScript', 'React', 'Astro']}
-          />
+          </motion.div>
+          <motion.div
+            initial={isMobile ? { opacity: 0, y: 30 } : { opacity: 0, x: 30 }}
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
+            transition={{ duration: 2, ease: [0, 0.55, 0.45, 1], delay: 0.2 }}
+          >
+            <CardPresentation
+              name='Miriam Sobrino'
+              image='/default.jpg'
+              profession='Frontend Developer'
+              description='Desarrollo interfaces web intuitivas y visualmente atractivas, optimizadas para una experiencia de usuario fluida. Mi pasión es combinar diseño y tecnología para construir productos digitales accesibles e innovadores.'
+              links={[
+                { platform: 'github', url: 'https://github.com/miriamsobrino' },
+                { platform: 'linkedin', url: 'https://linkedin.com/' },
+                {
+                  platform: 'instagram',
+                  url: 'https://instagram.com/miri.code',
+                },
+              ]}
+              skills={['HTML', 'CSS', 'TypeScript', 'React', 'Astro']}
+            />
+          </motion.div>
         </div>
       )}
     </div>

@@ -26,28 +26,9 @@ export const CardPresentation = ({
   const [showLight, setShowLight] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [isIconHovered, setIsIconHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile] = useState(window.innerWidth <= 768);
   const { user } = useAuthContext();
 
-  useEffect(() => {
-    const button = document.getElementById('share-button');
-
-    if (button && !button.onclick) {
-      button.onclick = copyToClipBoard;
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect(); // Obtenemos las coordenadas de la tarjeta
     const x = e.clientX - rect.left; // Calculamos la posición X relativa a la tarjeta
