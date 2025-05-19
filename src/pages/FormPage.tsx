@@ -113,12 +113,14 @@ export default function FormPage() {
         );
         await uploadBytes(storageRef, imageFile);
         publicImageUrl = await getDownloadURL(storageRef);
-      } catch (e) {}
+      } catch (e) {
+        console.error('No se puede descargar la imagen');
+      }
     }
     if (name && profession && description && links && skills) {
       const cardData = {
         id: uuidv4(),
-        image: image ? image : publicImageUrl,
+        image: publicImageUrl,
         name,
         profession,
         description,
