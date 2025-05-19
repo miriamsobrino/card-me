@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthContext } from './context/AuthContext';
 interface Props {
@@ -7,7 +7,21 @@ interface Props {
 export default function Layout({ children }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
   const { logOut } = useAuthContext();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const signOut = () => {
     logOut();
     navigate('/login');
@@ -17,8 +31,12 @@ export default function Layout({ children }: Props) {
       className={`flex flex-col h-full relative w-full bg-radial from-gray-800 to-gray-900 overflow-x-hidden`}
     >
       <div className='w-full flex-1 flex mx-auto h-full  '>
-        <header className='w-full fixed top-0'>
-          <nav className='w-full flex justify-between items-center text-white/80 py-8 px-6 lg:px-70'>
+        <header
+          className={`w-full fixed top-0 z-50 ${
+            scrolled ? 'bg-gray-800/60 backdrop-blur-lg' : ''
+          }`}
+        >
+          <nav className='w-full flex justify-between items-center text-white/80 py-4 lg:py-8 px-6 lg:px-70'>
             {['/', '/login'].includes(location.pathname) && (
               <h1 className='text-4xl font-bold font-caveat'>
                 <Link to='/'>Card.me</Link>
