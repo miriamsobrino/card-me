@@ -36,7 +36,7 @@ export default function Layout({ children }: Props) {
             scrolled ? 'bg-gray-800/60 backdrop-blur-lg' : ''
           }`}
         >
-          <nav className='w-full flex justify-between items-center text-white/80 py-4 lg:py-8 px-6 lg:px-70'>
+          <nav className='w-full flex justify-between items-center text-white/80 py-4  px-6 lg:px-70'>
             {['/', '/login'].includes(location.pathname) && (
               <h1 className='text-4xl font-bold font-caveat'>
                 <Link to='/'>Card.me</Link>

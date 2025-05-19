@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { iconsMap } from './IconsMap';
-import { getDomain } from '../helpers/getDomain';
+import { getDomain } from '../utils/getDomain';
 import { RiLink } from 'react-icons/ri';
 import { useAuthContext } from '../context/AuthContext';
+import { FaFolderClosed, FaFolderOpen } from 'react-icons/fa6';
+
 interface Props {
   name: string;
   image: string;
   profession: string;
   description: string;
   links?: { platform: string; url: string }[];
+  portfolio: string;
   skills: string[];
   withIcon?: boolean;
 }
@@ -17,6 +20,7 @@ export const CardPresentation = ({
   image,
   profession,
   description,
+  portfolio,
   links,
   skills,
   withIcon,
@@ -27,6 +31,8 @@ export const CardPresentation = ({
   const [imageLoading, setImageLoading] = useState(true);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [isMobile] = useState(window.innerWidth <= 768);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredLinkIndex, setHoveredLinkIndex] = useState<number | null>(null);
   const { user } = useAuthContext();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -78,6 +84,7 @@ export const CardPresentation = ({
         console.error('Error al copiar al portapapeles:', err);
       });
   };
+
   return (
     <>
       {imageLoading ? (
@@ -112,7 +119,7 @@ export const CardPresentation = ({
               >
                 Compartir tarjeta
               </span>
-              <div className=''>
+              <div>
                 <RiLink />
               </div>
             </button>
@@ -141,16 +148,44 @@ export const CardPresentation = ({
                       const domain = getDomain(link.url);
                       return (
                         <a
+                          onMouseEnter={() => setHoveredLinkIndex(index)}
+                          onMouseLeave={() => setHoveredLinkIndex(null)}
                           key={index}
                           href={link.url}
                           target='_blank'
                           rel='noopener noreferrer'
-                          className='cursor-pointer opacity-70 hover:scale-[1.05] hover:opacity-100 transition-all duration-200'
+                          className='cursor-pointer relative opacity-70 hover:scale-[1.05] hover:opacity-100 transition-all duration-200'
                         >
                           {iconsMap[domain] || ''}
+                          {hoveredLinkIndex === index && (
+                            <span className='text-xs bg-white/20 p-1 rounded-md absolute top-6 font-light'>
+                              {link.platform}
+                            </span>
+                          )}
                         </a>
                       );
                     })}
+                  {portfolio && (
+                    <a
+                      href={portfolio}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-sm font-light'
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      {isHovered ? (
+                        <div className='relative'>
+                          <FaFolderOpen size={23} />
+                          <span className='text-xs bg-white/20 p-1 rounded-md absolute top-5 font-light'>
+                            Portfolio
+                          </span>
+                        </div>
+                      ) : (
+                        <FaFolderClosed size={22} />
+                      )}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

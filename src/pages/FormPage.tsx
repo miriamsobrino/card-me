@@ -11,12 +11,15 @@ import { uploadBytes } from 'firebase/storage';
 import { CardPresentation } from '../components/CardPresentation';
 import { FaCirclePlus, FaCircleMinus } from 'react-icons/fa6';
 import { HexColorPicker } from 'react-colorful';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 export default function FormPage() {
   const { cardData, createCard } = useCardContext();
+  const [image, setImage] = useState('');
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('');
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
+  const [portfolio, setPortfolio] = useState('');
   const [description, setDescription] = useState('');
   const [skills, setSkills] = useState<string[]>(['']);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -27,8 +30,10 @@ export default function FormPage() {
 
   useEffect(() => {
     if (cardData) {
+      setImage(cardData.image);
       setName(cardData.name);
       setProfession(cardData.profession);
+      setPortfolio(cardData.portfolio);
       setLinks(cardData.links);
       setDescription(cardData.description);
       setSkills(cardData.skills ? cardData.skills : ['']);
@@ -78,20 +83,25 @@ export default function FormPage() {
     setImageFile(file);
   };
 
-  const validLinks = (links || []).map((link) => ({
+  {
+    /* const validLinks = (links || []).map((link) => ({
     ...link,
     url:
       link.url.startsWith('http') || link.url.startsWith('https')
         ? link.url
         : `https://${link.url}`,
+  }));*/
+  }
+  const validLinks = links.map((link) => ({
+    ...link,
+    url: normalizeUrl(link.url),
   }));
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const slug =
       name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
     const completedSkills = skills!!.filter((skill) => skill.trim() !== '');
-
+    const portfolioLink = normalizeUrl(portfolio);
     let publicImageUrl = '/user.png';
     if (imageFile) {
       try {
@@ -106,10 +116,11 @@ export default function FormPage() {
     if (name && profession && description && links && skills) {
       const cardData = {
         id: uuidv4(),
-        image: publicImageUrl,
+        image: image ? image : publicImageUrl,
         name,
         profession,
         description,
+        portfolio: portfolioLink,
         links: validLinks,
         skills: completedSkills,
         color,
@@ -125,7 +136,7 @@ export default function FormPage() {
 
   return (
     <div
-      className='w-full h-full min-h-screen  justify-between text-white/60 items-center flex flex-col   '
+      className='w-full h-full min-h-screen  justify-between text-white/60 items-start flex flex-col   '
       style={{ backgroundImage: `radial-gradient(${color}, #1a1a1a)` }}
     >
       {loading ? (
@@ -213,6 +224,15 @@ export default function FormPage() {
                     />
                   </div>
                 ))}
+                <label htmlFor='portfolio' className='text-start'>
+                  Portfolio
+                </label>
+                <input
+                  placeholder='Enlace del portfolio'
+                  value={portfolio}
+                  onChange={(e) => setPortfolio(e.target.value)}
+                  className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
+                />
                 <label htmlFor='description' className='text-start'>
                   Sobre ti
                 </label>
@@ -278,37 +298,25 @@ export default function FormPage() {
                 </button>
               </form>
             </div>
-            <div className='  gap-4 items-center justify-center flex-1 mt-20 hidden lg:flex lg:flex-col'>
-              <div className='flex flex-col gap-6 items-center'>
-                <CardPresentation
-                  name={name}
-                  profession={profession}
-                  links={validLinks}
-                  skills={skills}
-                  description={description}
-                  image={imagePreview!!}
-                />
-                {/*<HexColorPicker
-                  style={{ width: '100%', height: 150 }}
-                  color={color}
-                  onChange={setColor}
-                />*/}
-                <button
-                  type='submit'
-                  onClick={handleSubmit}
-                  className='p-2 pb-3 w-40 text-center cursor-pointer hover:bg-blue-400 text-white bg-blue-500  rounded-md disabled:opacity-30  transition-all duration-200'
-                >
-                  Crear tarjeta
-                </button>
-              </div>
-              {/*<TwitterPicker
-                width='350px'
-                triangle='hide'
-                className='opacity-80 mt-4 rounded-lg'
-                color={color}
-                onChange={handleColorChange}
-                colors={['#104278', '#8a4741', '#094a38', '#6d4991', '#424242']}
-              />*/}
+
+            <div className='gap-6 items-center justify-center flex-1 mt-20 lg:-mt-80 hidden lg:flex lg:flex-col'>
+              <CardPresentation
+                name={name}
+                profession={profession}
+                links={validLinks}
+                portfolio={portfolio}
+                skills={skills}
+                description={description}
+                image={imagePreview!!}
+              />
+
+              <button
+                type='submit'
+                onClick={handleSubmit}
+                className='p-2 pb-3 w-40 text-center cursor-pointer hover:bg-blue-400 text-white bg-blue-500  rounded-md disabled:opacity-30  transition-all duration-200'
+              >
+                Crear tarjeta
+              </button>
             </div>
           </div>
         </>

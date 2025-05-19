@@ -6,8 +6,16 @@ export default function CardPage() {
   const { cardData, loading } = useCardContext();
   if (!cardData) return loading;
 
-  const { name, image, profession, description, links, skills, color } =
-    cardData;
+  const {
+    name,
+    image,
+    profession,
+    description,
+    portfolio,
+    links,
+    skills,
+    color,
+  } = cardData;
 
   return (
     <div
@@ -23,6 +31,7 @@ export default function CardPage() {
             image={image}
             profession={profession}
             description={description}
+            portfolio={portfolio}
             links={links}
             skills={skills}
             withIcon={true}
