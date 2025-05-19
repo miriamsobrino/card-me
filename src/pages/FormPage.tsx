@@ -85,15 +85,6 @@ export default function FormPage() {
     setImageFile(file);
   };
 
-  {
-    /* const validLinks = (links || []).map((link) => ({
-    ...link,
-    url:
-      link.url.startsWith('http') || link.url.startsWith('https')
-        ? link.url
-        : `https://${link.url}`,
-  }));*/
-  }
   const validLinks = links.map((link) => ({
     ...link,
     url: normalizeUrl(link.url),
@@ -151,7 +142,7 @@ export default function FormPage() {
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
               <div className='lg:w-36 lg:h-36 w-28 h-28 rounded-full overflow-hidden relative cursor-pointer group'>
                 <img
-                  src={imagePreview || '/user.png'}
+                  src={image ? image : imagePreview || '/user.png'}
                   className='w-full h-full aspect-square rounded-full opacity-90 object-cover'
                 />
                 <div className='w-full h-full bg-transparent group-hover:bg-black/40 absolute inset-0 transition-all duration-200 flex items-center justify-center'>
