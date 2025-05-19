@@ -4,6 +4,7 @@ import { getDomain } from '../utils/getDomain';
 import { RiLink } from 'react-icons/ri';
 import { useAuthContext } from '../context/AuthContext';
 import { FaFolderClosed, FaFolderOpen } from 'react-icons/fa6';
+import { motion } from 'framer-motion';
 
 interface Props {
   name: string;
@@ -158,9 +159,13 @@ export const CardPresentation = ({
                         >
                           {iconsMap[domain] || ''}
                           {hoveredLinkIndex === index && (
-                            <span className='text-xs bg-white/20 p-1 rounded-md absolute top-6 font-light'>
+                            <motion.span
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className='text-xs bg-white/20 p-1 rounded-md absolute top-6 font-light'
+                            >
                               {link.platform}
-                            </span>
+                            </motion.span>
                           )}
                         </a>
                       );
@@ -170,16 +175,20 @@ export const CardPresentation = ({
                       href={portfolio}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='text-sm font-light'
+                      className='text-sm font-light opacity-80 hover:opacity-100'
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
                     >
                       {isHovered ? (
                         <div className='relative'>
                           <FaFolderOpen size={23} />
-                          <span className='text-xs bg-white/20 p-1 rounded-md absolute top-5 font-light'>
+                          <motion.span
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: -3 }}
+                            className='text-xs bg-white/20 p-1 rounded-md absolute top-6 font-light'
+                          >
                             Portfolio
-                          </span>
+                          </motion.span>
                         </div>
                       ) : (
                         <FaFolderClosed size={22} />

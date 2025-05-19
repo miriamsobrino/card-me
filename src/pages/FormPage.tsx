@@ -12,6 +12,8 @@ import { CardPresentation } from '../components/CardPresentation';
 import { FaCirclePlus, FaCircleMinus } from 'react-icons/fa6';
 import { HexColorPicker } from 'react-colorful';
 import { normalizeUrl } from '../utils/normalizeUrl';
+import { ThemedButton } from '../components/ThemedButton';
+import { ThemedInput } from '../components/ThemedInput';
 
 export default function FormPage() {
   const { cardData, createCard } = useCardContext();
@@ -169,21 +171,21 @@ export default function FormPage() {
                 onSubmit={handleSubmit}
               >
                 {cardData && <label htmlFor='name'>Nombre</label>}
-                <input
+                <ThemedInput
                   id='name'
                   placeholder='Nombre'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className=' border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                 />
+
                 {cardData && <label htmlFor='profession'>Profesión</label>}
-                <input
+                <ThemedInput
                   id='profession'
                   placeholder='Profesión'
                   value={profession}
                   onChange={(e) => setProfession(e.target.value)}
-                  className=' border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                 />
+
                 <label htmlFor='link' className='text-start'>
                   Links RRSS
                 </label>
@@ -201,6 +203,9 @@ export default function FormPage() {
                       key={platform}
                       value={platform}
                       className='bg-gray-800'
+                      disabled={links.some(
+                        (link) => link.platform === platform
+                      )}
                     >
                       {platform}
                     </option>
@@ -212,12 +217,12 @@ export default function FormPage() {
                     key={index}
                     className='flex w-full justify-between group relative'
                   >
-                    <input
+                    <ThemedInput
                       placeholder={`Enlace de ${link.platform}`}
                       value={link.url}
                       onChange={(e) => handleLinkChange(index, e.target.value)}
-                      className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                     />
+
                     <FaCircleMinus
                       className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
                       onClick={() => deleteLink(index)}
@@ -227,12 +232,13 @@ export default function FormPage() {
                 <label htmlFor='portfolio' className='text-start'>
                   Portfolio
                 </label>
-                <input
+                <ThemedInput
+                  id='portfolio'
                   placeholder='Enlace del portfolio'
                   value={portfolio}
                   onChange={(e) => setPortfolio(e.target.value)}
-                  className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                 />
+
                 <label htmlFor='description' className='text-start'>
                   Sobre ti
                 </label>
@@ -258,28 +264,29 @@ export default function FormPage() {
                     key={index}
                     className='flex w-full justify-between group relative'
                   >
-                    <input
+                    <ThemedInput
                       id='skill'
-                      key={index}
                       placeholder={`Habilidad ${index + 1}`}
                       value={skill}
                       onChange={(e) => handleSkillChange(index, e.target.value)}
-                      className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                     />
+
                     <FaCircleMinus
                       className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
                       onClick={() => deleteSkill(index)}
                     />
                   </div>
                 ))}
-                <button
-                  type='button'
+                <ThemedButton
+                  variant='secondary'
+                  hidden={false}
                   onClick={addSkill}
                   disabled={skills.length >= 5}
-                  className='p-2 text-center cursor-pointer flex items-center justify-center gap-2 hover:bg-white/30 bg-white/20 w-full rounded-md disabled:opacity-30 transition-all duration-200'
+                  className=' flex items-center justify-center gap-2'
                 >
                   Añadir <FaCirclePlus size={18} />
-                </button>
+                </ThemedButton>
+
                 <span>Color</span>
                 <div className='w-full flex items-center justify-center mt-2 lg:mt-0'>
                   <HexColorPicker
@@ -289,13 +296,14 @@ export default function FormPage() {
                     className='hidden lg:flex'
                   />
                 </div>
-                <button
+                <ThemedButton
                   type='submit'
+                  hidden={true}
+                  variant='primary'
                   onClick={handleSubmit}
-                  className='p-2 pb-3 w-full mt-4 lg:mt-0 lg:hidden text-center cursor-pointer hover:bg-blue-400 text-white bg-blue-500  rounded-md disabled:opacity-30  transition-all duration-200'
                 >
                   Crear tarjeta
-                </button>
+                </ThemedButton>
               </form>
             </div>
 
@@ -309,14 +317,15 @@ export default function FormPage() {
                 description={description}
                 image={imagePreview!!}
               />
-
-              <button
+              <ThemedButton
                 type='submit'
+                hidden={false}
+                variant='primary'
                 onClick={handleSubmit}
-                className='p-2 pb-3 w-40 text-center cursor-pointer hover:bg-blue-400 text-white bg-blue-500  rounded-md disabled:opacity-30  transition-all duration-200'
+                className='!w-40 '
               >
                 Crear tarjeta
-              </button>
+              </ThemedButton>
             </div>
           </div>
         </>

@@ -40,7 +40,7 @@ export default function CardPage() {
             Hecho en{' '}
             <Link
               to='/'
-              className='hover:underline font-bold text-white/80 transition-all duration-200 cursor-pointer font-caveat text-xl'
+              className='hover:scale-[1.02] hover:underline font-bold text-white/80 transition-all duration-200 cursor-pointer font-caveat text-xl inline-block'
             >
               Card.me
             </Link>
