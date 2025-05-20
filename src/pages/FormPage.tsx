@@ -10,6 +10,7 @@ import { useState } from 'react';
 
 export default function FormPage() {
   const [selectedPlatform, setSelectedPlatform] = useState('');
+
   const [isMobile] = useState(window.innerWidth <= 768);
   const {
     name,
@@ -22,6 +23,7 @@ export default function FormPage() {
     color,
     loading,
     cardData,
+    errors,
     setName,
     setProfession,
     setPortfolio,
@@ -57,13 +59,16 @@ export default function FormPage() {
                 onSubmit={handleSubmit}
               >
                 {cardData && <label htmlFor='name'>Nombre</label>}
+
                 <ThemedInput
                   id='name'
                   placeholder='Nombre'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-
+                {errors.name && (
+                  <p className='text-sm text-red-400'>{errors.name}</p>
+                )}
                 {cardData && <label htmlFor='profession'>Profesión</label>}
                 <ThemedInput
                   id='profession'
@@ -71,7 +76,9 @@ export default function FormPage() {
                   value={profession}
                   onChange={(e) => setProfession(e.target.value)}
                 />
-
+                {errors.profession && (
+                  <p className='text-sm text-red-400'>{errors.profession}</p>
+                )}
                 <label htmlFor='link' className='text-start'>
                   Links RRSS
                 </label>
@@ -152,6 +159,9 @@ export default function FormPage() {
                   }`}
                   maxLength={250}
                 />
+                {errors.description && (
+                  <p className='text-sm text-red-400'>{errors.description}</p>
+                )}
                 <label htmlFor='skill' className='text-start'>
                   Habilidades (Tecnologías/Programas/Idiomas...)
                 </label>

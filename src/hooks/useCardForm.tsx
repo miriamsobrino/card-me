@@ -17,6 +17,11 @@ export function useCardForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [color, setColor] = useState('#1e2939');
+  const [errors, setErrors] = useState({
+    name: '',
+    profession: '',
+    description: '',
+  });
   const { user, loading } = useAuthContext();
   const navigate = useNavigate();
 
@@ -76,6 +81,7 @@ export function useCardForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     const slug =
       name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
     const completedSkills = skills.filter((skill) => skill.trim() !== '');
@@ -95,6 +101,16 @@ export function useCardForm() {
         console.error('No se puede descargar la imagen');
       }
     }
+    const newErrors = {
+      name: name ? '' : 'Por favor introduce un nombre',
+      profession: profession ? '' : 'Por favor introduce una profesión',
+      description: description ? '' : 'Por favor introduce una descripción',
+    };
+    if (newErrors.name || newErrors.profession || newErrors.description) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({ name: '', profession: '', description: '' });
     if (name && profession && description) {
       const cardData = {
         id: uuidv4(),
@@ -111,8 +127,6 @@ export function useCardForm() {
         await createCard(user.uid, cardData);
       }
       navigate(`/${slug}`);
-    } else {
-      alert('Debes rellenar todos los campos');
     }
   };
 
@@ -127,6 +141,7 @@ export function useCardForm() {
     color,
     loading,
     cardData,
+    errors,
     setName,
     setProfession,
     setPortfolio,
