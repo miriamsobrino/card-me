@@ -1,8 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
-import { storage } from '../config/firebase-config';
-import { ref } from 'firebase/storage';
 import { useAuthContext } from '../context/AuthContext';
 import { useCardContext } from '../context/CardContext';
 import { normalizeUrl } from '../utils/normalizeUrl';

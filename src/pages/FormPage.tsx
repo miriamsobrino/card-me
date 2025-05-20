@@ -1,5 +1,4 @@
 import { PLATFORMS } from '../constants/constants';
-
 import { CardPresentation } from '../components/CardPresentation';
 import { FaCirclePlus, FaCircleMinus } from 'react-icons/fa6';
 import { HexColorPicker } from 'react-colorful';
