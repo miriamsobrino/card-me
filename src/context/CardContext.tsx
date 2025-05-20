@@ -42,6 +42,7 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
     return () => unsubscribe();
   }, [user?.uid]);
+
   const createCard = async (userId: string, card: Card) => {
     try {
       const cardsRef = ref(db, `cards/${userId}`);

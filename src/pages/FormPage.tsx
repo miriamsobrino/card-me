@@ -1,135 +1,39 @@
-import { useEffect, useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { PLATFORMS } from '../constants/constants';
-import { useAuthContext } from '../context/AuthContext';
-import { useCardContext } from '../context/CardContext';
-import { v4 as uuidv4 } from 'uuid';
-import { MdEdit } from 'react-icons/md';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../config/firebase-config';
-import { uploadBytes } from 'firebase/storage';
+
 import { CardPresentation } from '../components/CardPresentation';
 import { FaCirclePlus, FaCircleMinus } from 'react-icons/fa6';
 import { HexColorPicker } from 'react-colorful';
-import { normalizeUrl } from '../utils/normalizeUrl';
 import { ThemedButton } from '../components/ThemedButton';
 import { ThemedInput } from '../components/ThemedInput';
+import { useCardForm } from '../hooks/useCardForm';
+import { ImageUploader } from '../components/ImageUploader';
 
 export default function FormPage() {
-  const { cardData, createCard } = useCardContext();
-  const [name, setName] = useState('');
-  const [profession, setProfession] = useState('');
-  const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
-  const [portfolio, setPortfolio] = useState('');
-  const [description, setDescription] = useState('');
-  const [skills, setSkills] = useState<string[]>(['']);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [color, setColor] = useState('#1e2939');
-  const { user, loading } = useAuthContext();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (cardData) {
-      setName(cardData.name);
-      setProfession(cardData.profession);
-      setPortfolio(cardData.portfolio);
-      setLinks(cardData.links);
-      setDescription(cardData.description);
-      setSkills(cardData.skills ? cardData.skills : ['']);
-      setImagePreview(cardData.image || null);
-      setColor(cardData.color);
-    }
-  }, [cardData]);
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
-
-  const addLink = (platform: string) => {
-    if (platform.trim() === '') return;
-    setLinks([...links, { platform, url: '' }]);
-  };
-  const addSkill = () => {
-    if (skills.length < 5) {
-      setSkills([...skills, '']);
-    }
-  };
-
-  const deleteLink = (index: number) => {
-    setLinks(links.filter((_, i) => i !== index));
-  };
-  const deleteSkill = (index: number) => {
-    setSkills(skills.filter((__, i) => i !== index));
-  };
-  const handleLinkChange = (index: number, value: string) => {
-    const newLinks = [...links];
-    newLinks[index].url = value;
-    setLinks(newLinks);
-  };
-  const handleSkillChange = (index: number, value: string) => {
-    const newSkills = [...skills];
-    newSkills[index] = value;
-    setSkills(newSkills);
-  };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const imageUrl = URL.createObjectURL(file);
-    setImagePreview(imageUrl);
-    setImageFile(file);
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const slug =
-      name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
-    const completedSkills = skills!!.filter((skill) => skill.trim() !== '');
-    const validLinks =
-      links &&
-      links.map((link) => ({
-        ...link,
-        url: normalizeUrl(link.url),
-      }));
-    const portfolioLink =
-      portfolio.trim() !== '' ? normalizeUrl(portfolio) : '';
-    let publicImageUrl = imagePreview ? imagePreview : '/user.png';
-    if (imageFile) {
-      try {
-        const storageRef = ref(
-          storage,
-          `images/${user?.uid}/${imageFile?.name}`
-        );
-        await uploadBytes(storageRef, imageFile);
-        publicImageUrl = await getDownloadURL(storageRef);
-      } catch (e) {
-        console.error('No se puede descargar la imagen');
-      }
-    }
-    if (name && profession && description) {
-      const cardData = {
-        id: uuidv4(),
-        image: publicImageUrl,
-        name,
-        profession,
-        description,
-        portfolio: portfolioLink,
-        links: validLinks,
-        skills: completedSkills,
-        color,
-      };
-      if (user) {
-        await createCard(user.uid, cardData);
-      }
-      navigate(`/${slug}`);
-    } else {
-      alert('Debes rellenar todos los campos');
-    }
-  };
-
+  const {
+    name,
+    profession,
+    links,
+    skills,
+    portfolio,
+    description,
+    imagePreview,
+    color,
+    loading,
+    cardData,
+    setName,
+    setProfession,
+    setPortfolio,
+    setDescription,
+    setColor,
+    addSkill,
+    addLink,
+    deleteLink,
+    deleteSkill,
+    handleLinkChange,
+    handleSkillChange,
+    handleFileChange,
+    handleSubmit,
+  } = useCardForm();
   return (
     <div
       className='w-full h-full min-h-screen  justify-between text-white/60 items-start flex flex-col   '
@@ -141,24 +45,10 @@ export default function FormPage() {
         <>
           <div className='lg:flex flex-col lg:flex-row items-center h-full  justify-between mt-24 lg:mb-10   lg:mt-40  w-full lg:px-70 '>
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
-              <div className='lg:w-36 lg:h-36 w-28 h-28 rounded-full overflow-hidden relative cursor-pointer group'>
-                <img
-                  src={imagePreview || '/user.png'}
-                  className='w-full h-full aspect-square rounded-full opacity-90 object-cover'
-                />
-                <div className='w-full h-full bg-transparent group-hover:bg-black/40 absolute inset-0 transition-all duration-200 flex items-center justify-center'>
-                  <input
-                    type='file'
-                    accept='image/*'
-                    className='absolute inset-0 w-36 h-36 opacity-0 cursor-pointer z-20'
-                    onChange={handleFileChange}
-                  />
-                  <MdEdit
-                    size={40}
-                    className='opacity-0 translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 duration-200 transition-all z--1'
-                  />
-                </div>
-              </div>
+              <ImageUploader
+                imagePreview={imagePreview ? imagePreview : '/user.png'}
+                handleFileChange={handleFileChange}
+              />
               <h1 className='text-2xl font-bold  '>Introduce tu información</h1>
               <form
                 className='flex flex-col items-start gap-3 w-[400px] pb-10 px-6 lg:px-0'
