@@ -9,6 +9,7 @@ export const ImageUploader = ({ imagePreview, handleFileChange }: Props) => {
     <div className='lg:w-36 lg:h-36 w-28 h-28 rounded-full overflow-hidden relative cursor-pointer group'>
       <img
         src={imagePreview}
+        alt='Avatar'
         className='w-full h-full aspect-square rounded-full opacity-90 object-cover'
       />
       <div className='w-full h-full bg-transparent group-hover:bg-black/40 absolute inset-0 transition-all duration-200 flex items-center justify-center'>

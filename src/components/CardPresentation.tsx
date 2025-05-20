@@ -131,6 +131,7 @@ export const CardPresentation = ({
               {image && (
                 <img
                   src={image}
+                  alt='Avatar'
                   className='lg:w-36 lg:h-36 w-28 h-28 object-cover rounded-full border-2 border-gray-200/20 '
                 />
               )}
