@@ -33,7 +33,7 @@ export default function Layout({ children }: Props) {
       <div className='w-full flex-1 flex mx-auto h-full  '>
         <header
           className={`w-full fixed top-0 z-50 ${
-            scrolled ? 'bg-gray-800/60 backdrop-blur-lg' : ''
+            scrolled ? 'bg-white-800/60 backdrop-blur-lg' : ''
           }`}
         >
           <nav className='w-full flex justify-between items-center text-white/80 py-4  px-6 lg:px-70'>

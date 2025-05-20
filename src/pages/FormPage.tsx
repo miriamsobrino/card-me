@@ -6,8 +6,11 @@ import { ThemedButton } from '../components/ThemedButton';
 import { ThemedInput } from '../components/ThemedInput';
 import { useCardForm } from '../hooks/useCardForm';
 import { ImageUploader } from '../components/ImageUploader';
+import { useState } from 'react';
 
 export default function FormPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState('');
+  const [isMobile] = useState(window.innerWidth <= 768);
   const {
     name,
     profession,
@@ -75,8 +78,12 @@ export default function FormPage() {
 
                 <select
                   id='platform'
+                  value={selectedPlatform}
                   className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
-                  onChange={(e) => addLink(e.target.value)}
+                  onChange={(e) => {
+                    addLink(e.target.value);
+                    setSelectedPlatform('');
+                  }}
                 >
                   <option value='' className='bg-gray-700'>
                     Selecciona una plataforma
@@ -111,7 +118,9 @@ export default function FormPage() {
                       />
 
                       <FaCircleMinus
-                        className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
+                        className={`absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200 ${
+                          isMobile ? 'opacity-100' : ''
+                        }`}
                         onClick={() => deleteLink(index)}
                       />
                     </div>
@@ -159,7 +168,9 @@ export default function FormPage() {
                     />
 
                     <FaCircleMinus
-                      className='absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200'
+                      className={`absolute right-2 top-4 cursor-pointer hover:opacity-100 hover:scale-[1.05] opacity-0 group-hover:opacity-80 transition-all duration-200 ${
+                        isMobile ? 'opacity-100' : ''
+                      }`}
                       onClick={() => deleteSkill(index)}
                     />
                   </div>
