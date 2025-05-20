@@ -89,7 +89,8 @@ export default function FormPage() {
                   className='border-white/20 border-2 rounded-md p-2 outline-none w-full focus:border-white/40'
                   onChange={(e) => {
                     addLink(e.target.value);
-                    setSelectedPlatform('');
+                    setSelectedPlatform(e.target.value);
+                    setTimeout(() => setSelectedPlatform(''), 0);
                   }}
                 >
                   <option value='' className='bg-gray-700'>

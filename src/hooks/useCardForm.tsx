@@ -46,7 +46,9 @@ export function useCardForm() {
 
   const addLink = (platform: string) => {
     if (platform.trim() === '') return;
-    setLinks([...links, { platform, url: '' }]);
+    if (links) {
+      setLinks([...links, { platform, url: '' }]);
+    }
   };
   const addSkill = () => {
     if (skills.length < 5) {
