@@ -96,7 +96,7 @@ export default function FormPage() {
       }));
     const portfolioLink =
       portfolio.trim() !== '' ? normalizeUrl(portfolio) : '';
-    let publicImageUrl = '/user.png';
+    let publicImageUrl = imagePreview ? imagePreview : '/user.png';
     if (imageFile) {
       try {
         const storageRef = ref(
