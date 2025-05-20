@@ -176,6 +176,7 @@ export default function FormPage() {
                   </div>
                 ))}
                 <ThemedButton
+                  type='button'
                   variant='secondary'
                   hidden={false}
                   onClick={addSkill}
