@@ -60,13 +60,16 @@ export default function LoginPage() {
           >
             <CardPresentation
               name='Miriam Sobrino'
-              image='/default.jpg'
+              image='/default.webp'
               profession='Frontend Developer'
               portfolio='https://portfolio-miriam.vercel.app'
               description='Desarrollo interfaces web intuitivas y visualmente atractivas, optimizadas para una experiencia de usuario fluida. Mi pasión es combinar diseño y tecnología para construir productos digitales accesibles e innovadores.'
               links={[
                 { platform: 'github', url: 'https://github.com/miriamsobrino' },
-                { platform: 'linkedin', url: 'https://linkedin.com/' },
+                {
+                  platform: 'linkedin',
+                  url: 'www.linkedin.com/in/miriam-sobrino-5295a5150',
+                },
                 {
                   platform: 'instagram',
                   url: 'https://instagram.com/miri.code',
