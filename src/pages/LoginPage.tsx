@@ -68,7 +68,7 @@ export default function LoginPage() {
                 { platform: 'github', url: 'https://github.com/miriamsobrino' },
                 {
                   platform: 'linkedin',
-                  url: 'www.linkedin.com/in/miriam-sobrino-5295a5150',
+                  url: 'https://www.linkedin.com/in/miriam-sobrino-5295a5150/',
                 },
                 {
                   platform: 'instagram',
