@@ -47,7 +47,7 @@ export default function FormPage() {
         <span className='loader'></span>
       ) : (
         <>
-          <div className='lg:flex flex-col xl:flex-row items-center h-full  justify-between mt-24 lg:mb-10 lg:gap-12  lg:mt-40  w-full lg:px-40 xl:px-70 '>
+          <div className='lg:flex flex-col xl:flex-row items-center h-full  justify-between mt-24 lg:mb-10 lg:gap-12  lg:mt-40  w-full xl:px-30 '>
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
               <ImageUploader
                 imagePreview={imagePreview ? imagePreview : '/user.png'}

@@ -24,11 +24,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='w-full min-h-screen pt-40 lg:pt-20 justify-between text-left text-white/60 items-center py-10 lg:py-0 lg:flex lg:flex-row flex-col gap-6 lg:gap-12 px-6 lg:px-40 xl:px-70'>
+    <div className='w-full min-h-screen pt-40 lg:pt-20 justify-between text-left text-white/60 items-center py-10 lg:py-0 lg:flex lg:flex-row flex-col gap-6 lg:gap-12 px-6  xl:px-30 mx-auto'>
       {loading ? (
         <span className='loader'></span>
       ) : (
-        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center '>
+        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center w-full mx-auto justify-center '>
           <motion.div
             initial={isMobile ? { opacity: 0, y: -50 } : { opacity: 0, x: -50 }}
             animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
