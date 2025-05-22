@@ -35,6 +35,7 @@ export const CardPresentation = ({
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredLinkIndex, setHoveredLinkIndex] = useState<number | null>(null);
   const { user } = useAuthContext();
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect(); // Obtenemos las coordenadas de la tarjeta
@@ -219,7 +220,7 @@ export const CardPresentation = ({
               )}
             </div>
           </div>
-          {showLight && window.innerWidth > 768 && (
+          {showLight && window.innerWidth > 768 && !isSafari && (
             <div
               className='absolute pointer-events-none z-50 blur-2xl bg-radial from-gray-200 to-gray-100 opacity-40  mix-blend-lighten rounded-full'
               style={{
