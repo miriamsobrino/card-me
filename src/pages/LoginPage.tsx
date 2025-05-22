@@ -63,7 +63,7 @@ export default function LoginPage() {
               image='/default.webp'
               profession='Frontend Developer'
               portfolio='https://portfolio-miriam.vercel.app'
-              description='Desarrollo interfaces web intuitivas y visualmente atractivas, optimizadas para una experiencia de usuario fluida. Mi pasión es combinar diseño y tecnología para construir productos digitales accesibles e innovadores.'
+              description={`Desarrollo interfaces web intuitivas y visualmente atractivas, optimizadas para una experiencia de usuario fluida. Mi pasión es combinar diseño y tecnología para construir productos digitales accesibles e innovadores.`}
               links={[
                 { platform: 'github', url: 'https://github.com/miriamsobrino' },
                 {

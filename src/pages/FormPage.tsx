@@ -47,7 +47,7 @@ export default function FormPage() {
         <span className='loader'></span>
       ) : (
         <>
-          <div className='lg:flex flex-col lg:flex-row items-center h-full  justify-between mt-24 lg:mb-10   lg:mt-40  w-full lg:px-70 '>
+          <div className='lg:flex flex-col xl:flex-row items-center h-full  justify-between mt-24 lg:mb-10 lg:gap-12  lg:mt-40  w-full lg:px-40 xl:px-70 '>
             <div className='text-center flex flex-col gap-4 items-center  w-full flex-1'>
               <ImageUploader
                 imagePreview={imagePreview ? imagePreview : '/user.png'}
@@ -217,7 +217,7 @@ export default function FormPage() {
               </form>
             </div>
 
-            <div className='gap-6 items-center justify-center flex-1 mt-20 lg:-mt-80 hidden lg:flex lg:flex-col'>
+            <div className='gap-6 items-center justify-center flex-1 mt-20 md:hidden lg:hidden xl:-mt-80 hidden xl:flex xl:flex-col'>
               <CardPresentation
                 name={name}
                 profession={profession}
