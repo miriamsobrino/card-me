@@ -28,12 +28,12 @@ export default function LoginPage() {
       {loading ? (
         <span className='loader'></span>
       ) : (
-        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center'>
+        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center '>
           <motion.div
             initial={isMobile ? { opacity: 0, y: -50 } : { opacity: 0, x: -50 }}
             animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
             transition={{ duration: 1.5, ease: [0, 0.55, 0.45, 1] }}
-            className='text-center lg:text-left items-center lg:items-start flex flex-col gap-2 '
+            className='text-center lg:text-left items-center lg:items-start flex flex-col gap-2 min-w-[400px] '
           >
             <div className='leading-2'>
               <h2 className='text-3xl lg:text-4xl text-white/80 font-bold'>
