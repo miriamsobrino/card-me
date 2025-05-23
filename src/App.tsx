@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
 import FormPage from './pages/FormPage';
-import CardPage from './pages/CardPage';
+
 import LoginPage from './pages/LoginPage';
+import CardRouteWrapper from './components/CardRouteWrapper';
 function App() {
   return (
     <Router>
@@ -10,7 +11,7 @@ function App() {
         <Routes>
           <Route path='/' element={<FormPage />} />
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/:slug' element={<CardPage />} />
+          <Route path='/:uid' element={<CardRouteWrapper />} />
         </Routes>
       </Layout>
     </Router>

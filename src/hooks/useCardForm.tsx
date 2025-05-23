@@ -17,6 +17,7 @@ export function useCardForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [color, setColor] = useState('#1e2939');
+
   const [errors, setErrors] = useState({
     name: '',
     profession: '',
@@ -30,7 +31,7 @@ export function useCardForm() {
       setName(cardData.name);
       setProfession(cardData.profession);
       setPortfolio(cardData.portfolio);
-      setLinks(cardData.links);
+      setLinks(cardData.links ?? []);
       setDescription(cardData.description);
       setSkills(cardData.skills ? cardData.skills : ['']);
       setImagePreview(cardData.image || null);
@@ -80,22 +81,23 @@ export function useCardForm() {
     setImagePreview(imageUrl);
     setImageFile(file);
   };
+  const validLinks =
+    links &&
+    links.map((link) => ({
+      ...link,
+      url: normalizeUrl(link.url),
+    }));
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const slug =
-      name.toLowerCase().replace(/\s+/g, '-') + '-' + user?.uid.slice(0, 5);
     const completedSkills = skills.filter((skill) => skill.trim() !== '');
-    const validLinks =
-      links &&
-      links.map((link) => ({
-        ...link,
-        url: normalizeUrl(link.url),
-      }));
+
     const portfolioLink =
       portfolio.trim() !== '' ? normalizeUrl(portfolio) : '';
+
     let publicImageUrl = imagePreview ? imagePreview : '/user.png';
+
     if (imageFile) {
       try {
         publicImageUrl = await uploadImage(user ? user.uid : '', imageFile);
@@ -103,6 +105,7 @@ export function useCardForm() {
         console.error('No se puede descargar la imagen');
       }
     }
+
     const newErrors = {
       name: name ? '' : 'Por favor introduce un nombre',
       profession: profession ? '' : 'Por favor introduce una profesión',
@@ -124,11 +127,13 @@ export function useCardForm() {
         links: validLinks,
         skills: completedSkills,
         color,
+        ownerId: user!!.uid,
       };
       if (user) {
-        await createCard(user.uid, cardData);
+        await createCard(cardData);
+        console.log('Guardando cardData:', cardData);
       }
-      navigate(`/${slug}`);
+      navigate(`/${user?.uid}`);
     }
   };
 

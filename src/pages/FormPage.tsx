@@ -90,7 +90,7 @@ export default function FormPage() {
                   onChange={(e) => {
                     addLink(e.target.value);
                     setSelectedPlatform(e.target.value);
-                    setTimeout(() => setSelectedPlatform(''), 0);
+                    setTimeout(() => setSelectedPlatform(''), 200);
                   }}
                 >
                   <option value='' className='bg-gray-700'>

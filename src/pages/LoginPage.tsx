@@ -28,7 +28,7 @@ export default function LoginPage() {
       {loading ? (
         <span className='loader'></span>
       ) : (
-        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center w-full mx-auto justify-center '>
+        <div className='flex flex-col gap-8 lg:flex-row lg:gap-12 items-center w-full mx-auto justify-center   '>
           <motion.div
             initial={isMobile ? { opacity: 0, y: -50 } : { opacity: 0, x: -50 }}
             animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}

@@ -8,4 +8,5 @@ export interface Card {
   links: { platform: string; url: string }[];
   skills: string[];
   color: string;
+  ownerId: string;
 }
