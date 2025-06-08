@@ -5,6 +5,7 @@ import { RiLink } from 'react-icons/ri';
 import { useAuthContext } from '../context/AuthContext';
 import { FaFolderClosed, FaFolderOpen } from 'react-icons/fa6';
 import { motion } from 'framer-motion';
+import { toast, Toaster } from 'sonner';
 
 interface Props {
   name: string;
@@ -80,7 +81,7 @@ export const CardPresentation = ({
     navigator.clipboard
       .writeText(cardUrl)
       .then(() => {
-        alert('¡Enlace copiado al portapapeles!');
+        toast.success('¡Enlace copiado al portapapeles!');
       })
       .catch((err) => {
         console.error('Error al copiar al portapapeles:', err);
@@ -104,6 +105,7 @@ export const CardPresentation = ({
             transformStyle: 'preserve-3d',
           }}
         >
+          <Toaster position='top-center' />
           {withIcon && (
             <button
               id='share-button'

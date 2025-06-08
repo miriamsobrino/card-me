@@ -131,7 +131,6 @@ export function useCardForm() {
       };
       if (user) {
         await createCard(cardData);
-        console.log('Guardando cardData:', cardData);
       }
       navigate(`/${user?.uid}`);
     }
