@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CardPresentation } from '../components/CardPresentation';
 import { useCardContext } from '../context/CardContext';
+import { Toaster } from 'sonner';
 
 export default function CardPage() {
   const { cardData, loading } = useCardContext();
@@ -26,6 +27,7 @@ export default function CardPage() {
         <span className='loader'></span>
       ) : (
         <div className='flex flex-col w-full max-h-screen px-4 items-center text-white/60 gap-3 '>
+          <Toaster position='top-center' />
           <CardPresentation
             name={name}
             image={image}
